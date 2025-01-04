@@ -1,106 +1,140 @@
 #pragma once
 
+#include <string>
 #include <vector>
+#include <memory>
 
-/////////////////////////
-// Locomotion Strategy //
-/////////////////////////
+//////////////////
+// Player Class //
+//////////////////
 
-// This is the first of the strategy patterns - if you are unfamiliar with
-// the strategy design pattern, consult this reference:
-// https://refactoring.guru/design-patterns/strategy
-
-class Locomotion {
+class Player {
 public:
-    virtual void move() = 0;
-};
-
-class Swim : Locomotion {
-public:
-    void move() override;
-};
-
-class Crawl : Locomotion {
-public:
-    void move() override;
-};
-
-class Stationary : Locomotion {
-public:
-    void move() override;
-};
-
-/////////////////////
-// Action Strategy //
-/////////////////////
-
-// Another implementation of a strategy pattern - here we delegate the various ways
-// a sea creature can behave to their own classes. That way multiple creatures can
-// depend on the same behavior - several fish can blow bubbles, for example.
-
-class Action {
-public:
-    virtual void act() = 0;
-};
-
-class BlowBubble : Action {
-public:
-    void act() override;
-};
-
-class PuffUp : Action {
-public:
-    void act() override;
-};
-
-class ChangeColor : Action {
-public:
-    void act() override;
-};
-
-///////////////////////
-// Resource Strategy //
-///////////////////////
-
-// the final implementation of the strategy pattern
-
-class Resource {
-public:
-    virtual void collect() = 0;
-};
-
-class Pearl : Resource {
-public:
-    void collect() override;
-};
-
-class Shell : Resource {
-public:
-    void collect() override;
-};
-
-class FishFillet : Resource {
-public:
-    void collect() override;
-};
-
-//////////////////////////////
-// Sea Creature Composition //
-//////////////////////////////
-
-// Here we tie everything we've built together in a single class.
-// Note that in order to reference an interface such as locomotion in C++
-// we need to use a pointer. We are not savages, so we use a smart pointer.
-
-class SeaCreature {
+    Player(const std::string& name, int number);
+    ~Player();
+    std::string getName() const;
+    int getNumber() const;
+    void setPerformance(int performance);
+    int getPerformance() const;
 private:
-    std::unique_ptr<Locomotion> locomotion;
-    std::vector<Action> actions;
-    std::vector<Resource> contained_resources;
-public:
-    void move();
-
-    void act();
-
-    void collect_resources();
+    std::string name;
+    int number;
+    int performance;
 };
+
+////////////////
+// Team Class //
+////////////////
+
+class Team {
+public:
+    Team(const std::string& name);
+    ~Team();
+    void addPlayer(const Player& player);
+    void removePlayer(const std::string& playerName);
+    Player getPlayer(const std::string& playerName) const;
+    std::vector<Player> getPlayers() const;
+private:
+    std::string name;
+    std::vector<Player> players;
+};
+
+/////////////////
+// Coach Class //
+/////////////////
+
+class Coach {
+public:
+    Coach(const std::string& name);
+    ~Coach();
+    std::string getName() const;
+    void addStrategy(const std::string& strategy);
+    std::vector<std::string> getStrategies() const;
+private:
+    std::string name;
+    std::vector<std::string> strategies;
+};
+
+///////////////////
+// Strategy Class //
+///////////////////
+
+class Strategy {
+public:
+    Strategy(const std::string& name);
+    ~Strategy();
+    std::string getName() const;
+    void addPlay(const std::string& play);
+    std::vector<std::string> getPlays() const;
+private:
+    std::string name;
+    std::vector<std::string> plays;
+};
+
+///////////////
+// Play Class //
+///////////////
+
+class Play {
+public:
+    Play(const std::string& name, const std::string& type);
+    ~Play();
+    std::string getName() const;
+    std::string getType() const;
+private:
+    std::string name;
+    std::string type;
+};
+
+////////////////////////
+// UserInterface Class //
+////////////////////////
+
+class UserInterface {
+public:
+    UserInterface();
+    ~UserInterface();
+    void displayMenu();
+    void getUserInput();
+private:
+    // Add necessary members for user interaction
+};
+
+/////////////////////////
+// MomentumMeter Class //
+/////////////////////////
+
+class MomentumMeter {
+public:
+    MomentumMeter();
+    ~MomentumMeter();
+    void update(int change);
+    int getMomentum() const;
+private:
+    int momentum;
+};
+
+///////////////////////////////////////
+// Interactive Coaching System Class //
+///////////////////////////////////////
+
+class InteractiveCoachingSystem {
+public:
+    InteractiveCoachingSystem();
+    ~InteractiveCoachingSystem();
+    void makeDecision(const std::string& decision);
+    void substitutePlayer(const std::string& outPlayer, const std::string& inPlayer);
+    void callPlay(const std::string& play);
+    void analyzePerformance();
+    void coachChallenge(const std::string& challenge);
+    void updateMomentumMeter(int change);
+    void unlockStrategy(const std::string& strategy);
+private:
+    Team team;
+    Coach coach;
+    MomentumMeter momentumMeter;
+    std::vector<std::string> playbook;
+    std::vector<std::string> unlockedStrategies;
+};
+
+#endif // INTERACTIVE_COACHING_SYSTEM_H
