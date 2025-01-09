@@ -17,4 +17,6 @@ The pros of adding the Interactive Coaching System include increased player enga
 ## Class Diagram Mind Map
 Below is a mind map representing the class diagram for the Interactive Coaching System:
 
-<img src="mind_map.jpg" alt="Class Diagram Mind Map" style="width: 30%; height: auto;"/>
+<p align="center">
+  <img src="mind_map.jpg" alt="Class Diagram Mind Map" style="width: 50%; height: auto;"/>
+</p>
